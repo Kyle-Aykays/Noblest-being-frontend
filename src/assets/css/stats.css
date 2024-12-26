@@ -1,0 +1,42 @@
+.charts-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 100px;
+    width: 100%;
+    
+}
+.stats-page{
+    max-width: 100vw;
+}
+.stats-page h1{
+    padding-top: 30px;
+}
+#priorityChart, #completionChart{
+    width: 400px;
+    height: 400px;
+}
+.text-white{
+    color: white;
+}
+.background-transparenet{
+    background-color: transparent;
+}
+input[type="date"]::-webkit-calendar-picker-indicator{
+    filter: invert(1);
+}
+.filters{
+    padding: 30px 15px;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+}
+@media screen and (max-width:750px){
+    .charts-container{
+        flex-direction: column;
+        gap: 50px;
+    }
+    .chart-wrapper canvas{
+        width: 100% !important;
+    }
+}

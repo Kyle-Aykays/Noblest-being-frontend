@@ -1,0 +1,152 @@
+*{
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+}
+body{
+    background-image: radial-gradient(at 50% 50%, hsla(210, 100%, 12%, 0.911), hsl(220, 30%, 5%));
+}
+
+.login-main{
+    max-width: 100vw;
+    height: 100vh;
+    background-image: radial-gradient(at 50% 50%, hsla(210, 100%, 12%, 0.911), hsl(220, 30%, 5%));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login-form{
+    background-color: hsla(220, 35%, 3%, 0.4);
+    flex-direction: column;
+    padding: 10px 20px;
+    color: white;
+}
+
+*,
+::before,
+::after{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+label{
+  font-size: 20px;
+}
+
+html,
+body{
+  height: 100%;
+  width: 100%;
+}
+
+/* body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.containerr{
+  background-color: transparent;
+  padding: 32px 48px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+}
+
+.containerr > h1{
+  margin-bottom: 20px;
+  color: white;
+}
+
+.containerr > form{
+  display: flex;
+  flex-direction: column;
+  color: white;
+  padding: 10px 20px;
+  gap: 10px;
+}
+/* .containerr div{
+  display: flex;
+  flex-direction: column;
+
+} */
+
+.containerr input{
+  width: 100%;
+  font-size: 20px;
+  padding: 10px;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  border-bottom: 1px solid white;
+}
+
+.containerr input::placeholder{
+  font-size: 12px;
+  font-style: italic;
+}
+
+button{
+  background-color: black;
+  border: none;
+  font-size: 16px;
+  color: white;
+  border-radius: 5px;
+  padding: 10px 30px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+span{
+  color: white;
+}
+.profile-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+}
+.main-profile{
+    width: 100%;
+}
+
+.color-white{
+    color: white;
+}
+.margin-main{
+    margin: 15px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    width: 100%;
+}
+.profile-container input, .profile-container select{ 
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+    /* padding: 0px 30px; */
+}
+select {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+select option {
+  background-color: transparent;
+  color: black;
+  border: 1px solid white;
+}
+.profile-form-main{
+  width: 100%;
+}
+.padding-main{
+  padding: 0px 10px;
+}
+.priority-tasks{
+  padding: 0px 15px;
+}

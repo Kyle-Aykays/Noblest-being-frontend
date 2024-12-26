@@ -1,0 +1,16 @@
+.custom-bg-color{
+    background-color: rgb(7, 7, 7);
+    color: white;
+}
+.custom-bg-color input{
+    background-color: transparent;
+    color: white;
+}
+.custom-bg-color textarea{
+    background-color: transparent;
+    color: white;
+}
+.custom-bg-color button{
+    color: black;
+    background-color: white;
+}
