@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation,useNavigate } from 'react-router-dom';
 import { handleError, handleSuccess } from '../reusable-Components/utils';
 import { ToastContainer } from 'react-toastify';
 import '../assets/css/login.css';
@@ -7,42 +7,39 @@ import Navbar from '../components/Navbar'
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const Profile = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
     const [profile, setProfile] = useState({
         name: '',
         email: '',
-        profilePicture: 'https://cdn1.iconfinder.com/data/icons/content-10/24/user-profile-512.png',
+        profilePicture: '	https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png',
         weight: '',
         height: '',
         gender: '',
         BMI: 0,
         calories: 0,
-    });
-
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        // Retrieve user data after Google OAuth or from localStorage
-        const query = new URLSearchParams(window.location.search);
+    });                                                                                                                                                              useEffect(() => {
+        // Retrieve query parameter
+        const query = new URLSearchParams(location.search);
         const userData = query.get('user');
-
         if (userData) {
-            const parsedUser = JSON.parse(decodeURIComponent(userData));
-            localStorage.setItem('userId', parsedUser.id); // Save ID for API use
-            setProfile((prevProfile) => ({
-                ...prevProfile,
-                name: parsedUser.name,
-                email: parsedUser.email,
-            }));
-        } else {
-            const userId = localStorage.getItem('userId');
-            if (!userId) {
-                handleError('User ID not found. Please log in again.');
-                navigate('/login'); // Redirect to login if no user data is found
-            } else {
-                fetchProfile();
+            try {
+                const parsedUser = JSON.parse(decodeURIComponent(userData));
+                setProfile({
+                    name: parsedUser.name,
+                    email: parsedUser.email,
+                });
+                localStorage.setItem('userId', parsedUser.id);
+            } catch (error) {
+                console.error('Error parsing user data:', error);
+                handleError('Failed to parse user data.');
+                navigate('/login');
             }
+        } else {
+            handleError('No user data found in query parameters.');
+            navigate('/login');
         }
-    }, [navigate]);
+    }, [location, navigate]);
 
     const fetchProfile = async () => {
         const userId = localStorage.getItem('userId');
