@@ -219,38 +219,42 @@ const Profile = () => {
 
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
-        const userId = localStorage.getItem('userId'); // Retrieve user ID
+        const userId = localStorage.getItem('userId');
         if (!file || !userId) {
             return alert('Please select a file and ensure you are logged in.');
         }
+
         const formData = new FormData();
         formData.append('profilePicture', file);
-        formData.append('_id', userId); // Attach user ID to the form data
+        formData.append('_id', userId);
+
         try {
             const response = await fetch(`${backendUrl}/profile/uploadProfilePicture`, {
                 method: 'POST',
                 body: formData,
             });
+
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('Backend error:', errorText);
                 throw new Error('Failed to upload profile photo');
             }
+
             const result = await response.json();
-        if (result.success) {
-            setProfile((prevProfile) => ({
-                ...prevProfile,
-                profilePicture: `${backendUrl}${result.avatar}`, // Update with full URL
-            }));
-            alert('Profile photo uploaded successfully');
-        } else {
-            alert(result.message || 'Failed to upload profile photo');
+            if (result.success) {
+                setProfile((prevProfile) => ({
+                    ...prevProfile,
+                    profilePicture: `${backendUrl}${result.avatar}`,
+                }));
+                alert('Profile photo uploaded successfully');
+            } else {
+                alert(result.message || 'Failed to upload profile photo');
+            }
+        } catch (err) {
+            console.error('Error uploading profile photo:', err);
+            alert('An unexpected error occurred.');
         }
-    } catch (err) {
-        console.error('Error uploading profile photo:', err);
-        alert('An unexpected error occurred');
-    }
-};
+    };
 
     return (
         <>
