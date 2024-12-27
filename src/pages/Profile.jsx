@@ -19,26 +19,37 @@ const Profile = () => {
         BMI: 0,
         calories: 0,
     });                                                                                                                                                              useEffect(() => {
-        // Retrieve query parameter
-        const query = new URLSearchParams(location.search);
-        const userData = query.get('user');
-        if (userData) {
-            try {
-                const parsedUser = JSON.parse(decodeURIComponent(userData));
-                setProfile({
-                    name: parsedUser.name,
-                    email: parsedUser.email,
-                });
-                localStorage.setItem('userId', parsedUser.id);
-            } catch (error) {
-                console.error('Error parsing user data:', error);
-                handleError('Failed to parse user data.');
-                navigate('/login');
+       useEffect(() => {
+        const parseQueryParams = () => {
+            const query = new URLSearchParams(location.search);
+            const userData = query.get('user');
+
+            if (userData) {
+                try {
+                    const parsedUser = JSON.parse(decodeURIComponent(userData));
+                    setProfile((prevProfile) => ({
+                        ...prevProfile,
+                        name: parsedUser.name,
+                        email: parsedUser.email,
+                    }));
+                    localStorage.setItem('userId', parsedUser.id);
+                } catch (error) {
+                    console.error('Error parsing user data:', error);
+                    handleError('Failed to parse user data. Redirecting to login.');
+                    navigate('/login');
+                }
+            } else {
+                const userId = localStorage.getItem('userId');
+                if (!userId) {
+                    handleError('No user data found. Redirecting to login.');
+                    navigate('/login');
+                } else {
+                    fetchProfile();
+                }
             }
-        } else {
-            handleError('No user data found in query parameters.');
-            navigate('/login');
-        }
+        };
+
+        parseQueryParams();
     }, [location, navigate]);
 
     const fetchProfile = async () => {
