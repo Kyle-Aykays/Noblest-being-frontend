@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { handleError, handleSuccess } from '../reusable-Components/utils';
 import { ToastContainer } from 'react-toastify';
 import '../assets/css/login.css';
@@ -7,7 +7,6 @@ import Navbar from '../components/Navbar'
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const Profile = () => {
-     const location = useLocation();
     const [profile, setProfile] = useState({
         name: '',
         email: '',
@@ -18,31 +17,32 @@ const Profile = () => {
         BMI: 0,
         calories: 0,
     });
-        const navigate = useNavigate();
 
+    const navigate = useNavigate();
 
-     useEffect(() => {
-        // Retrieve query parameter
+    useEffect(() => {
+        // Retrieve user data after Google OAuth or from localStorage
         const query = new URLSearchParams(window.location.search);
         const userData = query.get('user');
+
         if (userData) {
-            try {
-                const parsedUser = JSON.parse(decodeURIComponent(userData));
-                setProfile({
-                    name: parsedUser.name,
-                    email: parsedUser.email,
-                });
-                localStorage.setItem('userId', parsedUser.id);
-            } catch (error) {
-                console.error('Error parsing user data:', error);
-                handleError('Failed to parse user data.');
-                navigate('/login');
-            }
+            const parsedUser = JSON.parse(decodeURIComponent(userData));
+            localStorage.setItem('userId', parsedUser.id); // Save ID for API use
+            setProfile((prevProfile) => ({
+                ...prevProfile,
+                name: parsedUser.name,
+                email: parsedUser.email,
+            }));
         } else {
-            handleError('No user data found in query parameters.');
-            navigate('/login');
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                handleError('User ID not found. Please log in again.');
+                navigate('/login'); // Redirect to login if no user data is found
+            } else {
+                fetchProfile();
+            }
         }
-    }, [location, navigate]);
+    }, [navigate]);
 
     const fetchProfile = async () => {
         const userId = localStorage.getItem('userId');
