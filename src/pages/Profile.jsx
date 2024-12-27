@@ -9,7 +9,6 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
 const Profile = () => {
     const [profile, setProfile] = useState({
         const location = useLocation();
-        const navigate = useNavigate();
         name: '',
         email: '',
         profilePicture: 'https://cdn1.iconfinder.com/data/icons/content-10/24/user-profile-512.png',
@@ -19,11 +18,12 @@ const Profile = () => {
         BMI: 0,
         calories: 0,
     });
+        const navigate = useNavigate();
 
 
      useEffect(() => {
         // Retrieve query parameter
-        const query = new URLSearchParams(location.search);
+        const query = new URLSearchParams(window.location.search);
         const userData = query.get('user');
         if (userData) {
             try {
