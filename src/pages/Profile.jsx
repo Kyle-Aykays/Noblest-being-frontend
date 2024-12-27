@@ -7,8 +7,8 @@ import Navbar from '../components/Navbar'
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const Profile = () => {
+     const location = useLocation();
     const [profile, setProfile] = useState({
-        const location = useLocation();
         name: '',
         email: '',
         profilePicture: 'https://cdn1.iconfinder.com/data/icons/content-10/24/user-profile-512.png',
