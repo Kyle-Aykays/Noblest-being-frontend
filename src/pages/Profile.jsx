@@ -29,11 +29,10 @@ const Profile = () => {
         if (userData) {
             try {
                 const parsedUser = JSON.parse(decodeURIComponent(userData));
-                setProfile((prevProfile) => ({
-                    ...prevProfile,
+                setProfile({
                     name: parsedUser.name,
                     email: parsedUser.email,
-                }));
+                });
                 localStorage.setItem('userId', parsedUser.id); // Save user ID for future use
             } catch (error) {
                 console.error('Error parsing user data:', error);
