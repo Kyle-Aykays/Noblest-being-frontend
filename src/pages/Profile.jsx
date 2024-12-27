@@ -23,7 +23,7 @@ const Profile = () => {
 
     useEffect(() => {
         // Retrieve user data after Google OAuth or from localStorage
-        const query = new URLSearchParams(window.location.search);
+        const query = new URLSearchParams(location.search);
         const userData = query.get('user');
 
         if (userData) {
