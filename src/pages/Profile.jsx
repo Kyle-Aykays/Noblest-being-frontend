@@ -19,17 +19,19 @@ const Profile = () => {
         BMI: 0,
         calories: 0,
     });                                                                                                                                                              useEffect(() => {
-       useEffect(() => {
-        // Retrieve query parameter
+      useEffect(() => {
+        // Retrieve query parameters
         const query = new URLSearchParams(location.search);
         const userData = query.get('user');
+
         if (userData) {
             try {
                 const parsedUser = JSON.parse(decodeURIComponent(userData));
-                setProfile({
+                setProfile((prevProfile) => ({
+                    ...prevProfile,
                     name: parsedUser.name,
                     email: parsedUser.email,
-                });
+                }));
                 localStorage.setItem('userId', parsedUser.id);
             } catch (error) {
                 console.error('Error parsing user data:', error);
@@ -37,8 +39,13 @@ const Profile = () => {
                 navigate('/login');
             }
         } else {
-            handleError('No user data found in query parameters.');
-            navigate('/login');
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                handleError('No user data found. Redirecting to login.');
+                navigate('/login');
+            } else {
+                fetchProfile(userId);
+            }
         }
     }, [location, navigate]);
 
