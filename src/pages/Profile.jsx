@@ -22,32 +22,25 @@ const Profile = () => {
 
 
      useEffect(() => {
-        // Parse query parameters to get user data
+        // Retrieve query parameter
         const query = new URLSearchParams(location.search);
         const userData = query.get('user');
-
         if (userData) {
             try {
                 const parsedUser = JSON.parse(decodeURIComponent(userData));
-                setProfile((prevProfile) => ({
-                    ...prevProfile,
+                setProfile({
                     name: parsedUser.name,
                     email: parsedUser.email,
-                }));
-                localStorage.setItem('userId', parsedUser.id); // Save user ID for future use
+                });
+                localStorage.setItem('userId', parsedUser.id);
             } catch (error) {
                 console.error('Error parsing user data:', error);
                 handleError('Failed to parse user data.');
-                navigate('/login'); // Redirect if parsing fails
+                navigate('/login');
             }
         } else {
-            const userId = localStorage.getItem('userId');
-            if (!userId) {
-                handleError('No user data found. Redirecting to login.');
-                navigate('/login'); // Redirect if no user ID is found
-            } else {
-                fetchProfile(userId); // Fetch profile using stored user ID
-            }
+            handleError('No user data found in query parameters.');
+            navigate('/login');
         }
     }, [location, navigate]);
     
