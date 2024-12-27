@@ -49,12 +49,7 @@ const Profile = () => {
         }
     }, [location, navigate]);
 
-    const fetchProfile = async () => {
-        const userId = localStorage.getItem('userId');
-        if (!userId) {
-            return handleError('User ID not found. Please log in again.');
-        }
-
+    const fetchProfile = async (userId) => {
         try {
             const response = await fetch(`${backendUrl}/profile/getprofile`, {
                 method: 'POST',
@@ -68,30 +63,33 @@ const Profile = () => {
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('Error response text:', errorText);
-                return handleError('Failed to load profile');
+                return handleError('Failed to load profile.');
             }
 
             const result = await response.json();
             if (result.success) {
                 const { data } = result;
-                setProfile({
+                setProfile((prevProfile) => ({
+                    ...prevProfile,
                     name: data.name,
                     email: data.email,
-                    profilePicture: data.avatar ? `${backendUrl}${data.avatar}` : 'https://cdn.weatherapi.com/weather/64x64/day/113.png', // Prepend backendUrl                    weight: data.weight,
-                    height: data.height,
-                    gender: data.gender,
-                    BMI: data.BMI,
-                    calories: data.calories,
-                });
+                    profilePicture: data.avatar ? `${backendUrl}${data.avatar}` : prevProfile.profilePicture,
+                    weight: data.weight || '',
+                    height: data.height || '',
+                    gender: data.gender || '',
+                    BMI: data.BMI || 0,
+                    calories: data.calories || 0,
+                }));
                 handleSuccess(result.message || 'Profile loaded successfully');
             } else {
-                handleError(result.message || 'Failed to fetch profile');
+                handleError(result.message || 'Failed to fetch profile.');
             }
         } catch (err) {
             console.error('Fetch error:', err);
-            handleError('An unexpected error occurred');
+            handleError('An unexpected error occurred.');
         }
     };
+
     // const handleChange = (e) => {
     //     const { name, value } = e.target;
     //     setProfile((prevProfile) => ({
