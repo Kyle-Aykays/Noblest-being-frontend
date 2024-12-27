@@ -21,29 +21,36 @@ const Profile = () => {
     });
 
 
-    useEffect(() => {
-        // Retrieve user data after Google OAuth or from localStorage
+     useEffect(() => {
+        // Parse query parameters to get user data
         const query = new URLSearchParams(location.search);
         const userData = query.get('user');
 
         if (userData) {
             try {
                 const parsedUser = JSON.parse(decodeURIComponent(userData));
-                setProfile({
+                setProfile((prevProfile) => ({
+                    ...prevProfile,
                     name: parsedUser.name,
                     email: parsedUser.email,
-                });
-                localStorage.setItem('userId', parsedUser.id);
+                }));
+                localStorage.setItem('userId', parsedUser.id); // Save user ID for future use
             } catch (error) {
                 console.error('Error parsing user data:', error);
                 handleError('Failed to parse user data.');
-                navigate('/login');
+                navigate('/login'); // Redirect if parsing fails
             }
         } else {
-            handleError('No user data found in query parameters.');
-            navigate('/login');
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                handleError('No user data found. Redirecting to login.');
+                navigate('/login'); // Redirect if no user ID is found
+            } else {
+                fetchProfile(userId); // Fetch profile using stored user ID
+            }
         }
     }, [location, navigate]);
+    
     const fetchProfile = async () => {
         const userId = localStorage.getItem('userId');
         if (!userId) {
