@@ -215,7 +215,6 @@ const Profile = () => {
             console.error("Error:", error.message);
             handleError("An error occurred while updating the profile");
         }
-        setTimeout(() => navigate('/home'), 2000);
     };
 
 
