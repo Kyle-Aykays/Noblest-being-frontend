@@ -261,8 +261,8 @@ const Stats = () => {
         ) : statsData ? (
           <div>
             <p className="text-white mb-4 px-4">
-              Report for {statsData.date} - {statsData.checklistType}
-            </p>
+ Report for {selectedChecklist === "All" ? "All Checklists" : `${statsData.date}`} -{" "}
+            {selectedChecklist}              </p>
             <div className="charts-container grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="chart-wrapper">
                 <canvas ref={completionChartRef}></canvas>
