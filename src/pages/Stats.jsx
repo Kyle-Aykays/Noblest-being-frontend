@@ -251,7 +251,7 @@ const Stats = () => {
               type="date"
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className="p-2 border rounded text-white"
+              className="p-2 border rounded background-transparenet text-white"
             />
           </div>
         </div>
